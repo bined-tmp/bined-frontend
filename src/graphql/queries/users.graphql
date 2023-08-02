@@ -1,0 +1,21 @@
+query SelectUniqueUserByEmail($email: String!) {
+  users(where: { email: { _eq: $email } }) {
+    id
+    name
+    email
+    emailVerified
+    image
+    username
+  }
+}
+
+mutation UpdateUsersUsername($user_id: uuid!, $username: String!) {
+  update_users(
+    where: { id: { _eq: $user_id } }
+    _set: { username: $username }
+  ) {
+    returning {
+      id
+    }
+  }
+}
