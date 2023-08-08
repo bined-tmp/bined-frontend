@@ -1,73 +1,24 @@
 import { buttonVariants } from "@/components/ui/Button";
-import { getAuthSession } from "@/lib/auth";
-import { Home as HomeIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { S3Client } from "@aws-sdk/client-s3";
-import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
-import { v4 as uuidv4 } from "uuid";
 
-export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
-
-export default async function Home() {
-  const session = await getAuthSession();
-
-  const UPLOAD_MAX_FILE_SIZE = 1000000;
-
-  const s3Client = new S3Client({
-    region: process.env.AWS_REGION,
-    forcePathStyle: true,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    },
-  });
-
-  const imageId = uuidv4();
-
-  createPresignedPost(s3Client, {
-    Bucket: process.env.AWS_S3_BUCKET_NAME!,
-    Key: imageId,
-    Fields: {
-      key: imageId,
-    },
-    Conditions: [
-      ["starts-with", "$Content-Type", "image/"],
-      ["content-length-range", 0, UPLOAD_MAX_FILE_SIZE],
-    ],
-  });
-
+export default async function IndexPage() {
   return (
     <>
-      <h1 className="font-bold text-3xl md:text-4xl">Your feed</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
-        {/* subreddit info */}
-        <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
-          <div className="bg-emerald-100 px-6 py-4">
-            <p className="font-semibold py-3 flex items-center gap-1.5">
-              <HomeIcon className="h-4 w-4" />
-              Home
-            </p>
-          </div>
-          <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
-            <div className="flex justify-between gap-x-4 py-3">
-              <p className="text-zinc-500">
-                Your personal Breadit frontpage. Come here to check in with your
-                favorite communities.
-              </p>
-            </div>
-
-            <Link
-              className={buttonVariants({
-                className: "w-full mt-4 mb-6",
-              })}
-              href={`/`}
-            >
-              Create Community
-            </Link>
-          </dl>
+      <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
+        <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
+          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
+            An example app built using Next.js 13 server components.
+          </h1>
+          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+            I&apos;m building a web app with Next.js 13 and open sourcing
+            everything.
+          </p>
+          <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
+            Get started
+          </Link>
         </div>
-      </div>
+      </section>
     </>
   );
 }

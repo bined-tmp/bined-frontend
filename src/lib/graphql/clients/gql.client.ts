@@ -40,9 +40,9 @@ export class GqlClientFactory {
     uid: string;
   }): ApolloLink => {
     return createHttpLink({
-      uri: process.env.GQL_URL,
+      uri: process.env.HASURA_GQL_URL,
       headers: {
-        "x-hasura-admin-secret": String(process.env.GQL_ADMIN_SECRET),
+        "x-hasura-admin-secret": String(process.env.HASURA_ADMIN_SECRET),
         "x-hasura-role": args.role,
         "x-hasura-user-id": args.uid,
       },

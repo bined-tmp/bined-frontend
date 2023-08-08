@@ -11,10 +11,6 @@ export const metadata = {
 export default async function SettingsPage() {
   const session = await getAuthSession();
 
-  if (!session?.user) {
-    redirect(authOptions?.pages?.signIn || "/signup");
-  }
-
   return (
     <div className="max-w-4xl mx-auto py-12">
       <div className="grid items-start gap-8">
@@ -23,8 +19,8 @@ export default async function SettingsPage() {
         <div className="grid gap-10">
           <UserNameForm
             user={{
-              id: session.user.id,
-              username: session.user.username || "",
+              id: session?.user.id as string,
+              username: session?.user.username || "",
             }}
           />
         </div>

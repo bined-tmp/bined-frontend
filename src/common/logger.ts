@@ -1,5 +1,5 @@
 type LoggerArgsType = {
-  status: "Info" | "Debug" | "Warning" | "Error";
+  status: "INFO" | "DEBUG" | "WARNING" | "ERROR";
   path: string;
   message: string;
   value: unknown;
@@ -7,19 +7,17 @@ type LoggerArgsType = {
 
 const commonLogger = (args: LoggerArgsType): void => {
   const { path, message, value, status } = args;
-  console.log("----------------------------");
-  console.log(`--------------`);
+  console.log("===============================");
   console.log(`${status}: [${path}]`);
   console.log(`message: ${message}`);
   console.log(JSON.stringify(value, null, 4));
+  console.log("===============================");
 };
 
 export class Logger {
-  public static debug = (value: unknown): void => {
+  public static debug = (message: string, value: unknown): void => {
     if (process.env.NODE_ENV === "production") return;
-    console.log("============================");
-    console.log("Debug env only!!!");
-    commonLogger({ status: "Debug", message: "", path: "*", value });
+    commonLogger({ status: "DEBUG", path: "*", message, value });
   };
 
   public static info = (
@@ -27,17 +25,7 @@ export class Logger {
     message: string,
     value: unknown
   ): void => {
-    commonLogger({ status: "Info", path, message, value });
-  };
-
-  public static error = (
-    path: string,
-    message: string,
-    value: unknown
-  ): void => {
-    commonLogger({ status: "Error", path, message, value });
-
-    if (typeof value === "undefined") return;
+    commonLogger({ status: "INFO", path, message, value });
   };
 
   public static warning = (
@@ -45,14 +33,16 @@ export class Logger {
     message: string,
     value: unknown
   ): void => {
-    commonLogger({ status: "Warning", path, message, value });
+    commonLogger({ status: "WARNING", path, message, value });
   };
 
-  public static div = (num: string | number = 1): void => {
-    if (process.env.NODE_ENV === "production") return;
-    console.log(num + "============================");
-    console.log(num + "============================");
-    console.log(num + "============================");
-    console.log(num + "============================");
+  public static error = (
+    path: string,
+    message: string,
+    value: unknown
+  ): void => {
+    commonLogger({ status: "ERROR", path, message, value });
+
+    if (typeof value === "undefined") return;
   };
 }

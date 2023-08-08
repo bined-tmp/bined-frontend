@@ -58,7 +58,6 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
   });
 
   const click_submit = async (data: FormData): Promise<void> => {
-    console.log("click_submit");
     await mutation({
       variables: {
         user_id: user.id,
@@ -82,18 +81,10 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
         </CardHeader>
         <CardContent>
           <div className="relative grid gap-1">
-            <div className="absolute top-0 left-0 w-8 h-10 grid place-items-center">
-              <span className="text-sm text-zinc-400">u/</span>
-            </div>
             <Label className="sr-only" htmlFor="name">
               Name
             </Label>
-            <Input
-              id="name"
-              className="w-[400px] pl-6"
-              size={32}
-              {...register("name")}
-            />
+            <Input id="name" {...register("name")} />
             {errors?.name && (
               <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
             )}

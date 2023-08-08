@@ -19,6 +19,9 @@ const makeClient = (token: string): ApolloClient<NormalizedCacheObject> => {
   const headers = token ? authHeader : { "X-Hasura-Role": "anonymous" };
 
   const httpLink = new HttpLink({
+    // NOTE: for development
+    // working: localhost
+    // not working: graphql-engine
     uri: process.env.NEXT_PUBLIC_GQL_URL,
     headers,
   });

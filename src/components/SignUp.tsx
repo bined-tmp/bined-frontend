@@ -1,5 +1,5 @@
 import { Icons } from "@/components/Icons";
-import UserAuthForm from "@/components/UserAuthForm";
+import UserRegisterForm from "@/components/UserRegisterForm";
 import Link from "next/link";
 
 const SignUp = () => {
@@ -13,7 +13,7 @@ const SignUp = () => {
           User Agreement and Privacy Policy.
         </p>
       </div>
-      <UserAuthForm />
+      <UserRegisterForm />
       <p className="px-8 text-center text-sm text-muted-foreground">
         Already a Breadditor?{" "}
         <Link

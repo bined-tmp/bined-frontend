@@ -1,7 +1,21 @@
+import { Inter as FontSans } from "next/font/google";
+import localFont from "next/font/local";
 import Providers from "@/components/Providers";
-import "./globals.css";
+import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/Toaster";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { cn } from "@/lib/utils";
+
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const fontHeading = localFont({
+  src: "../assets/fonts/CalSans-SemiBold.woff2",
+  variable: "--font-heading",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,14 +28,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen pt-12 bg-slate-50 antialiased">
-        <Providers>
-          <div className="container max-w-7xl mx-auto h-full pt-12">
-            {children}
-          </div>
-        </Providers>
-        <Toaster />
+    <html lang="ja">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable,
+          fontHeading.variable
+        )}
+      >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Providers>{children}</Providers>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
